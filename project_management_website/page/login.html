@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录项目管理</title>
+<meta charset="UTF-8">
+<!-- <link href="/page/css/out/bootstrap.css" rel="stylesheet" type="text/css"> -->
+<link href="/asset/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="/asset/flatui/css/flat-ui.min.css" rel="stylesheet" type="text/css">
+<script src="/page/JavaScript/out/jquery-1.11.3.min.js"></script>
+<script src="/asset/bootstrap/js/bootstrap.min.js"></script>
+<script src="/asset/flatui/scripts/flat-ui.min.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style>
+ 
+.block {
+
+	width: 300px;
+	margin:0px auto;
+	border: 1px solid #a1a1a1;
+	padding: 10px 35px 10px 30px;
+	background: rgba(102,153,204,0.9);
+	border-radius: 0px; /*由张笑语删除圆角*/
+	background-blend-mode: luminosity;
+	
+
+}
+
+	.control-label{
+		font-size:15px;
+	}
+	h2{
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:40px;
+text-align: center;
+	}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #69C;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+li {
+	float: left;
+}
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+li a:hover {
+	background-color: #069;
+}
+.jumbotron {
+	margin-top: 75px;
+	margin-bottom: 0px;
+	background-image: url(../asset/pic/login_page_pic.jpg);
+	background-position: 0% 25%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: black;
+	height: 500px;
+}
+</style>
+<title>登录</title>
+</head>
+	
+	
+<body>
+<ul class="navbar">
+  <li><a class="active" href="">回到首页</a></li>
+  <li><a href="">我的任务</a></li>
+  <li><a href="">联系我们</a></li>
+  <li style="float:right"><a class="active" href="login.html">登录</a></li>
+  <li style="float:right"><a class="active" href="register.html">注册</a></li>
+</ul>
+<div class="jumbotron" >
+  <div class="container" >
+	 <div style="float: right">
+    <h2>登录项目管理</h2>
+    <div class="block">
+      <form style="font:微软雅黑; margin:0px auto">
+<br>
+        <label for="username" class="control-label">账号:</label>
+        <input class="form-control" type="text" id="username" />
+<br><br>
+        <label for="password" class="control-label">密码:</label>
+        <input  class="form-control" type="password" id="password" />
+<br>
+
+
+        <input type="button" value="登 录" class="btn btn-primary" id="btn_login" style="margin:15px 40px;padding:5px 16px"/>
+        &nbsp;&nbsp;
+        <input type="button" value="注 册" class="btn btn-info" id="btn_register" style="margin:15px -30px;padding:5px 16px" />
+		  <br>
+		  <label for="rem" class="control-label">记住登录状态:</label>
+		  <div class="bootstrap-switch-square" style="display: inline-block;height:10px">
+   			<input type="checkbox" data-on-color="info" data-toggle="switch" name="rem" id="s1" />
+		  </div>
+      </form>
+    </div>
+		 </div>
+  </div>
+</div>
+
+
+
+<script>
+	$('#btn_register').click(function(){window.location.href='register.html'});
+	//点击注册按钮时，跳转到登陆页面
+	//点击登录按钮时，执行以下代码进行验证登陆
+	//todo:添加验证码功能
+	$('#btn_login').click(function(){
+		var username = $('#username').val();
+		var password = $('#password').val();
+		var is_to_remember = document.getElementsByName('rem')[0].checked;
+		if(username == '' || password == '')
+		{
+			alert("请填写用户名和密码");
+			return;
+		}
+		$.post('../api/user/login.php',{username:username,psd:password,is_to_remember:is_to_remember},function(data){
+			//含义是：POST字段名：包含数据的变量名。后端要求一个username字段，其需要的值包含在同名局部变量username中
+			if(!data.is_usr_exist)
+			{
+				alert("用户名不存在");
+				return;
+			}
+			else if(!data.is_psd_ok)
+			{
+				alert("密码不正确");
+				return;
+			}
+			else
+			{
+				window.location.href = 'main.html';
+			}
+		});
+	});
+$('#s1').bootstrapSwitch('onText', '是');
+$('#s1').bootstrapSwitch('offText', '否');
+
+</script>
+</body>
+</html>
