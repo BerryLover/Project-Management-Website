@@ -3,7 +3,7 @@
   <img src="./login.jpg">
 </p>
 
-
+#### This is an undergraduate course project completed in 2018. ####
 #### Developers: *Zitong Su* & *Xiaoyu Zhang* ####
 
 There are four subdirectories under the root directory:
